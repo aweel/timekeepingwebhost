@@ -136,11 +136,11 @@
     $('#example').DataTable({
       responsive: true,
       dom:  "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-          //"<'row'<'col-sm-12' tr>>" +
+          "<'row'<'col-sm-12' tr>>" +
           //for hr
-          "<'row'<'col-sm-10 col-md-8'tr><'col-sm-2 col-md-4'Q>>" +
-          "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-          //"<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'p>>",
+          //"<'row'<'col-sm-10 col-md-8'tr><'col-sm-2 col-md-4'Q>>" +
+          //"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+          "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'p>>",
       "scrollY":  getViewport(), //"480px",
       "scrollCollapse": true,
       buttons: [
