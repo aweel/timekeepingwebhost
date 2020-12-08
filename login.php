@@ -11,12 +11,9 @@
     exit;
   }
   
-  define('__ROOT__', dirname(dirname(__FILE__)));
-  echo (__ROOT__.'/login.php');
-  
   // Define variables and initialize with empty values
   $username = $password = "";
-  $username_err = $password_err = "";
+  $username_err = $password_err = $errMsg = "";
   
   // Processing form data when form is submitted
   if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -35,87 +32,107 @@
       $password = trim($_POST["password"]);
     }
     
-    // Validate credentials
-    if(empty($username_err) && empty($password_err)){
-      // Prepare a select statement
-      $sql = "SELECT empId, username, lastname, firstname, password FROM users WHERE username = :username";
+    if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
+    {
+      $secret = '6LdEuPwZAAAAAKLnSzptgYDHViKlMwtOe3By2Dv0';
+      $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+      $responseData = json_decode($verifyResponse);
+      if($responseData->success)
+      {
+        $succMsg = 'Your contact request have submitted successfully.';
+  
+        // Validate credentials
+        if(empty($username_err) && empty($password_err))
+        {
+          // Prepare a select statement
+          $sql = "SELECT empId, username, lastname, firstname, password FROM users WHERE username = :username";
+    
+          if($stmt = $pdo->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
       
-      if($stmt = $pdo->prepare($sql)){
-        // Bind variables to the prepared statement as parameters
-        $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
-        
-        // Set parameters
-        $param_username = trim($_POST["username"]);
-        
-        // Attempt to execute the prepared statement
-        if($stmt->execute()){
-          // Check if username exists, if yes then verify password
-          if($stmt->rowCount() == 1){
-            if($row = $stmt->fetch()){
-              $id = $row["empId"];
-              $username = $row["username"];
-              $hashed_password = $row["password"];
-              $lastname = $row["lastname"];
-              $firstname = $row["firstname"];
+            // Set parameters
+            $param_username = trim($_POST["username"]);
+      
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+              // Check if username exists, if yes then verify password
+              if($stmt->rowCount() == 1){
+                if($row = $stmt->fetch()){
+                  $id = $row["empId"];
+                  $username = $row["username"];
+                  $hashed_password = $row["password"];
+                  $lastname = $row["lastname"];
+                  $firstname = $row["firstname"];
+            
+                  //on creating an account, a user enters a password!
+                  //$password="pwtester";//user keyed in password
+            
+                  $newhash = password_hash($password, PASSWORD_DEFAULT);
+                  //#newhash now has the only value that you need to store in the db
+                  //you do not need any more than this value, that you retrieve when you
+                  //want to verify your password!
+                  //$2y$10$TI8m/l8VFU5jjacZQrmWI.zXZDrN/WMP/4Rb1zLMUytkO9pGHo34u
+            
+            
+                  if(password_verify($password, $hashed_password)){
+                    // Password is correct, so start a new session
+                    //session_start();
               
-              //on creating an account, a user enters a password!
-              //$password="pwtester";//user keyed in password
-              
-              $newhash = password_hash($password, PASSWORD_DEFAULT);
-              //#newhash now has the only value that you need to store in the db
-              //you do not need any more than this value, that you retrieve when you
-              //want to verify your password!
-              //$2y$10$TI8m/l8VFU5jjacZQrmWI.zXZDrN/WMP/4Rb1zLMUytkO9pGHo34u
-              
-              
-              if(password_verify($password, $hashed_password)){
-                // Password is correct, so start a new session
-                //session_start();
-                
-                //check session status
-                function is_session_started()
-                {
-                  if ( php_sapi_name() !== 'cli' ) {
-                    if ( version_compare(phpversion(), '5.4.0', '>=') ) {
-                      return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
-                    } else {
-                      return session_id() === '' ? FALSE : TRUE;
+                    //check session status
+                    function is_session_started()
+                    {
+                      if ( php_sapi_name() !== 'cli' ) {
+                        if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+                          return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+                        } else {
+                          return session_id() === '' ? FALSE : TRUE;
+                        }
+                      }
+                      return FALSE;
                     }
+              
+                    // Example
+                    if ( is_session_started() === FALSE ) session_start();
+                    // Store data in session variables
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["empId"] = $id;
+                    $_SESSION["username"] = $username;
+                    $_SESSION["lastname"] = $lastname;
+                    $_SESSION["firstname"] = $firstname;
+              
+                    // Redirect user to welcome page
+                    header("location: location2.php");
+                  } else{
+                    // Display an error message if password is not valid
+                    $password_err = "The password you entered was not valid.";
                   }
-                  return FALSE;
                 }
-
-// Example
-                if ( is_session_started() === FALSE ) session_start();
-                // Store data in session variables
-                $_SESSION["loggedin"] = true;
-                $_SESSION["empId"] = $id;
-                $_SESSION["username"] = $username;
-                $_SESSION["lastname"] = $lastname;
-                $_SESSION["firstname"] = $firstname;
-                
-                // Redirect user to welcome page
-                header("location: location2.php");
               } else{
-                // Display an error message if password is not valid
-                $password_err = "The password you entered was not valid.";
+                // Display an error message if username doesn't exist
+                $username_err = "No account found with that username.";
               }
+            } else{
+              echo "Oops! Something went wrong. Please try again later.";
             }
-          } else{
-            // Display an error message if username doesn't exist
-            $username_err = "No account found with that username.";
+      
+            // Close statement
+            unset($stmt);
           }
-        } else{
-          echo "Oops! Something went wrong. Please try again later.";
         }
-        
-        // Close statement
-        unset($stmt);
+  
+        // Close connection
+        unset($pdo);
+      }
+      else
+      {
+        $errMsg = 'Robot verification failed, please try again.';
       }
     }
-    
-    // Close connection
-    unset($pdo);
+    else
+    {
+      $errMsg = 'Use recaptcha, please try again.';
+    }
   }
 ?>
 
@@ -162,15 +179,16 @@
 					<span class="txt1 p-b-11">
 						Username
 					</span>
-          
           <form action="" method="post">
 					<div class="wrap-input100 validate-input m-b-36" data-validate = "Username is required">
-            <label>
-              <input class="input100" type="text" name="username" >
-            </label>
-            <span class="focus-input100"></span>
+						<input class="input100" type="text" name="username" >
+						<span class="focus-input100"></span>
 					</div>
-					
+					<span>
+                         <?php if($username_err!="") { ?>
+                           <span class="errorMsg" id="validation" style="color: darkred; font-size:10px; display: inline"><?php echo $username_err; ?></span>
+                         <?php } unset($username_err);?>
+                    </span>
 					<span class="txt1 p-b-11">
 						Password
 					</span>
@@ -178,18 +196,22 @@
 						<span class="btn-show-pass">
 							<i class="fa fa-eye"></i>
 						</span>
-            <label>
-              <input class="input100" type="password" name="password" >
-            </label>
-            <span class="focus-input100"></span>
+						<input class="input100" type="password" name="password" >
+						<span class="focus-input100"></span>
 					</div>
 					
 					<div class="flex-sb-m w-full p-b-48">
+					    <span>
+                         <?php if($password_err!="") { ?>
+                           <span class="errorMsg" id="validation" style="color: darkred; font-size:10px; display: inline;"><?php echo $password_err; ?></span>
+                         <?php } unset($password_err);?>
+                        </span>
 						<div class="contact100-form-checkbox">
 							<!--<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
 							<label class="label-checkbox100" for="ckb1">
 								Remember me
 							</label>-->
+							
 						</div>
 
 						<div>
@@ -198,13 +220,20 @@
 							</a>
 						</div>
 					</div>
-
-					<div class="container-login100-form-btn">
-						<button type="submit" formmethod="post" formaction="" class="login100-form-btn">
-							Login
-						</button>
-					</div>
-
+          
+          <div class="container-login100-form-btn">
+            <div name="recaptcha" class="g-recaptcha" data-sitekey="6LdEuPwZAAAAAAasAMAulSDOPxcJZmSVWZQRXGnE"></div>
+            <span>
+             <?php if($errMsg!="") { ?>
+               <span class="errorMsg" id="validation">Use recaptcha before logging in.</span>
+             <?php } unset($errMsg);?>
+            </span>
+          </div>
+          
+          <div class="container-login100-form-btn">
+              <button type="submit" formmethod="post" formaction="" class="login100-form-btn">Login</button>
+          </div>
+          
 				</form>
 			</div>
 		</div>
@@ -229,6 +258,7 @@
 	<script src="resources/login_ui/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="resources/login_ui/js/main.js"></script>
+	<script src='https://www.google.com/recaptcha/api.js' async defer ></script>
 
 </body>
 </html>

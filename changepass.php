@@ -61,7 +61,7 @@
     unset($pdo);
   }
 ?>
-<main>
+<main class="container p-3">
     <div class="row justify-content-center align-items-center h-100">
       <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
         <div class="wrapper">

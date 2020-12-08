@@ -131,37 +131,27 @@
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
     <div class="form-group <?php echo (!empty($firstname_err)) ? 'has-error' : ''; ?>">
       <label>First Name</label>
-      <label>
-        <input type="text" name="firstname" class="form-control" value="<?php echo $firstname; ?>">
-      </label>
+      <input type="text" name="firstname" class="form-control" value="<?php echo $firstname; ?>">
       <span class="help-block"><?php echo $firstname_err; ?></span>
     </div>
     <div class="form-group <?php echo (!empty($lastname_err)) ? 'has-error' : ''; ?>">
       <label>Last Name</label>
-      <label>
-        <input type="text" name="lastname" class="form-control" value="<?php echo $lastname; ?>">
-      </label>
+      <input type="text" name="lastname" class="form-control" value="<?php echo $lastname; ?>">
       <span class="help-block"><?php echo $lastname_err; ?></span>
     </div>
     <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
       <label>Username</label>
-      <label>
-        <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
-      </label>
+      <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
       <span class="help-block"><?php echo $username_err; ?></span>
     </div>
     <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
       <label>Password</label>
-      <label>
-        <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
-      </label>
+      <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
       <span class="help-block"><?php echo $password_err; ?></span>
     </div>
     <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
       <label>Confirm Password</label>
-      <label>
-        <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
-      </label>
+      <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
       <span class="help-block"><?php echo $confirm_password_err; ?></span>
     </div>
     <div class="form-group">

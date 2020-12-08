@@ -27,41 +27,41 @@ $lng = $_POST['lng'];
 $notes = $_POST['notes'];
 $type = $_POST['type'];
 $date = timestamp;
-  
+
 if ($pdo->beginTransaction())
 {
-  try
-  {
-    //Save to db
-    $stmt = $pdo->prepare("INSERT INTO location (empId, capturetype, lat, lng, address, notes, capturedate ) VALUES (?,?,?,?,?,?,?)");
-    $stmt->bindParam(1,$empId, PDO::PARAM_INT);
-    $stmt->bindParam(2,$type, PDO::PARAM_STR);
-    $stmt->bindParam(3,$lat, PDO::PARAM_STR);
-    $stmt->bindParam(4,$lng,PDO::PARAM_STR);
-    $stmt->bindParam(5,$address,PDO::PARAM_STR);
-    $stmt->bindParam(6,$notes,PDO::PARAM_STR);
-    $stmt->bindParam(7,$date);
-    $res = $stmt->execute();
-    $lastId = $pdo->lastInsertId();
-
-    $stmt2 = $pdo->prepare("INSERT INTO images (locId, image) VALUES (?,?)");
-    $stmt2->bindParam(1,$lastId);
-    $stmt2->bindParam(2,$img);
-    $res2 = $stmt2->execute();
-    $pdo->commit();
-  }
-  catch (PDOException $e)
-  {
-    if ($pdo->inTransaction())
+    try
     {
-      $pdo->rollBack();
+      //Save to db
+      $stmt = $pdo->prepare("INSERT INTO location (empId, capturetype, lat, lng, address, notes, capturedate ) VALUES (?,?,?,?,?,?,?)");
+      $stmt->bindParam(1,$empId);
+      $stmt->bindParam(2,$type);
+      $stmt->bindParam(3,$lat);
+      $stmt->bindParam(4,$lng);
+      $stmt->bindParam(5,$address);
+      $stmt->bindParam(6,$notes);
+      $stmt->bindParam(7,$date);
+      $res = $stmt->execute();
+      $lastId = $pdo->lastInsertId();
+    
+      $stmt2 = $pdo->prepare("INSERT INTO images (locId, image) VALUES (?,?)");
+      $stmt2->bindParam(1,$lastId);
+      $stmt2->bindParam(2,$img);
+      $res2 = $stmt2->execute();
+      $pdo->commit();
     }
-    if ($e->getCode() == 1062) {
-    // Take some action if there is a key constraint violation, i.e. duplicate name
-      printf("awtsuu ".$e);
-    } else {
-      printf("huhu ".$e);
-      throw $e;
+    catch (PDOException $e)
+    {
+      if ($pdo->inTransaction())
+      {
+        $pdo->rollBack();
+      }
+      if ($e->getCode() == 1062) {
+      // Take some action if there is a key constraint violation, i.e. duplicate name
+        printf("awtsuu ".$e);
+      } else {
+        printf("huhu ".$e);
+        throw $e;
+      }
     }
-  }
 }

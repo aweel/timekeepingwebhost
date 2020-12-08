@@ -1,7 +1,15 @@
 var CACHE_NAME = 'my-site-cache-v1';
 var urlsToCache = [
-    'login.php',
     'layout.html',
+    '/resources/css/bottomnav.css',
+    '/resources/css/style.css',
+    '/resources/scripts/app.js',
+    '/resources/scripts/attendance.js',
+    '/resources/scripts/datatables.min.js',
+    '/resources/scripts/location2.js',
+    '/resources/scripts/maps.js',
+    'login.php'
+    
 ];
 
 self.addEventListener('install', function(event) {
@@ -15,6 +23,7 @@ self.addEventListener('install', function(event) {
   );
 });
 
+/*
 self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
@@ -28,3 +37,4 @@ self.addEventListener('fetch', function(event) {
     )
   );
 });
+*/

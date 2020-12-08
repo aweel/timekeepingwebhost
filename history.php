@@ -1,81 +1,32 @@
 <?php include "layout/header.php";?>
 
-<main id="wrapper">
-<div class="container p-b-5" style=" position: center; ">
-  <div class="row" >
-    <div class="col" >
-      <table id="example" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Type</th>
-          <th>Note</th>
-          <th>Location</th>
-          <th>Image</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-          //Select all records for the whole month
-          $query_search = $pdo->prepare(" SELECT id, capturetype, lat, lng, address, notes, image, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) WHERE location.empId = :empId ORDER BY location.id DESC LIMIT 26 ");
-          $query_search->bindParam(":empId", $param_empId2, PDO::PARAM_INT);
-          $param_empId2 = $_SESSION["empId"];
-          $query_search->execute();
-  
-          if($query_search->rowCount() >= 1) {
-            if($row2 = $query_search->fetchAll()) {
-              ?>
-                <?php foreach($row2 as $rows2):?>
-                  <tr>
-                    <td><?php echo date('Y-m-d', strtotime($rows2["mydate"])) ;?></td>
-                    <td><?php echo date('h:i A', strtotime($rows2["mytime"])) ;?></td>
-                    <td><?php echo $rows2["capturetype"] ;?></td>
-                    <td><?php echo $rows2["notes"] ;?></td>
-                    <td><a href="https://www.google.com/search?q=<?php echo $rows2["lat"].", ".$rows2["lng"] ;?>"><?php echo  $rows2["address"]?></a></td>
-                    <td><img style="width: 100px;height: 100px" src="<?php echo $rows2["image"] ;?>" alt="image"></td>
-                  </tr>
-                <?php endforeach;
-            }
-          }
-        ?>
-        </tbody>
-        <tfoot>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Type</th>
-          <th>Note</th>
-          <th>Location</th>
-          <th>Image</th>
-        </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
-</div>
-</main>
-
 <script type="text/javascript">
   function formatAMPM(date) {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let ampm = hours >= 12 ? 'pm' : 'am';
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? '0'+minutes : minutes;
-    return hours + ':' + minutes + ' ' + ampm;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
   }
 </script>
 <script type="text/javascript">
-  
+
   //Adjust table based on viewport
   function getViewport() {
-    let iHeight = window.screen.height;
-    let iWidth = window.screen.width;
+    var iHeight = window.screen.height;
+    var iWidth = window.screen.width;
     
     if (iWidth === 1024 && iHeight === 1366) {
       return "74vh";
+    }
+    else if (iWidth === 1903 && iHeight === 1086) {
+      return "70vh";
+    }
+    else if (iWidth === 1366 && iHeight === 625) {
+      return "45vh";
     }
     else if (iWidth === 768 && iHeight === 1024) {
       return "62vh";
@@ -135,14 +86,15 @@
   $(document).ready(function() {
     $('#example').DataTable({
       responsive: true,
-      dom:  "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+       dom:  "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
             "<'row'<'col-sm-12' tr>>" +
             //for hr
             //"<'row'<'col-sm-10 col-md-8'tr><'col-sm-2 col-md-4'Q>>" +
             //"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'p>>",
-      "scrollY":  getViewport(), //"480px",
+      "scrollY":  getViewport(),//"35vh", //"480px",
       "scrollCollapse": true,
+      scrollResize: true,
       buttons: [
         {
           extend: 'excel',
@@ -159,7 +111,61 @@
     $('#example').DataTable().columns.adjust();
   });
 </script>
-
+<main id="wrapper">
+<div class="container p-b-5" style=" position: center; ">
+  <div class="row" >
+    <div class="col" >
+      <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Type</th>
+          <th>Note</th>
+          <th>Location</th>
+          <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+          //Select all records for the whole month
+          $query_search = $pdo->prepare(" SELECT id, capturetype, lat, lng, address, notes, image, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) WHERE location.empId = :empId ORDER BY location.id DESC LIMIT 26 ");
+          $query_search->bindParam(":empId", $param_empId2, PDO::PARAM_INT);
+          $param_empId2 = $_SESSION["empId"];
+          $query_search->execute();
+  
+          if($query_search->rowCount() >= 1) {
+            if($row2 = $query_search->fetchAll()) {
+              ?>
+                <?php foreach($row2 as $rows2):?>
+                  <tr>
+                    <td><?php echo date('Y-m-d', strtotime($rows2["mydate"])) ;?></td>
+                    <td><?php echo date('h:i A', strtotime($rows2["mytime"])) ;?></td>
+                    <td><?php echo $rows2["capturetype"] ;?></td>
+                    <td><?php echo $rows2["notes"] ;?></td>
+                    <td><a href="https://www.google.com/search?q=<?php echo $rows2["lat"].", ".$rows2["lng"] ;?>"><?php echo  $rows2["address"]?></a></td>
+                    <td><img style="width: 100px;height: 100px" src="<?php echo $rows2["image"] ;?>" alt="image"></td>
+                  </tr>
+                <?php endforeach;
+            }
+          }
+        ?>
+        </tbody>
+        <tfoot>
+        <tr>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Type</th>
+          <th>Note</th>
+          <th>Location</th>
+          <th>Image</th>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+</main>
 <?php include "layout/footer.php" ?>
 
 
