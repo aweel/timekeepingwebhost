@@ -1,17 +1,3 @@
-<!--//Redirect to offline login if offline else, online login-->
-<script type="text/javascript">
-  window.addEventListener('online', updateStatus);
-  window.addEventListener('offline', updateStatus);
-  
-  function updateStatus(event) {
-    if(!navigator.onLine){
-      alert('No internet connection!');
-    }
-  }
-  updateStatus();
-</script>
-<!------------------------------------------------------------->
-
 <?php
   // Initialize the session
   session_start();
@@ -22,7 +8,7 @@
     exit;
   }
   
-  // Include db config file
+  // Include config file
   require_once "connection.php";
 ?>
 <!DOCTYPE html>
@@ -120,11 +106,32 @@
           <li class="nav-item">
             <a class="nav-link" href="./logout.php">LOGOUT</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://timekeep.000webhostapp.com/location2.php">Open App</a>
+          </li>
         </ul>
       </div>
     </nav>
   </div>
 </header>
+
+<div id="msg">
+     <?php
+    if($_GET['msg'] == '1'){?>
+       <div class="alert alert-success" id="timeInSuccess" role="alert" >Time in saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button></div>
+     <?php }elseif($_GET['msg'] == 2){?>
+        <div class="alert alert-danger" id="timeError" role="alert" >Oops, There is something wrong. Please try again.<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button></div>
+     <?php } elseif($_GET['msg'] == 3){?>
+     <div class="alert alert-danger" id="timeOutSuccess" role="alert" >Time out error!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button></div>
+    <?php } unset($_GET['msg']); ?>
+    <script>setTimeout( function(){$('#msg').hide();} , 3000);</script>
+</div>
 
 <div class="alert alert-success alert-dismissible" id="timeInSuccess" role="alert" style="display: none">Time in saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>

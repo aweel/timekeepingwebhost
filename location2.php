@@ -3,24 +3,26 @@
 <script>
   
   function startTime() {
-    let today = new Date();
-    let h = today.getHours();
-    let m = today.getMinutes();
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
     m = checkTime(m);
     
     //Convert to AM/PM
-    let hours = h;
-    let minutes = m;
-    let ampm = hours >= 12 ? 'PM' : 'AM';
+    var hours = h;
+    var minutes = m;
+    var ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     hours = hours < 10 ? '0' + hours : hours;
     minutes = minutes < 10 ? minutes : minutes;
-    document.getElementById('clock').innerHTML = hours + ':' + minutes + ' ' + ampm;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    document.getElementById('clock').innerHTML = strTime;
   }
   
   function checkTime(i) {
-    if (i < 10) {i = "0" + i}  // add zero in front of numbers < 10
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
   }
   

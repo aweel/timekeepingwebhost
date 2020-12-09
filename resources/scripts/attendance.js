@@ -13,6 +13,7 @@ else {
 
 var imageJsData;
 
+
 navigator.permissions.query({name:'geolocation'}).then(function(result) {
     if (result.state === 'granted') {
         console.log("geolocation ok")
@@ -20,16 +21,6 @@ navigator.permissions.query({name:'geolocation'}).then(function(result) {
         console.log("geolocation not ok")
     }
     // Don't do anything if the permission was denied.
-});
-
-
-
-navigator.geolocation.watchPosition(function(position) {
-    console.log("i'm tracking you!");
-},
-function(error) {
-    if (error.code == error.PERMISSION_DENIED)
-        console.log("you denied me :-(");
 });
 
 // Set constraints for the video stream

@@ -49,7 +49,7 @@
     }
   ],
   "prefer_related_applications": false,
-  "start_url": "layout.html",
+  "start_url": "login.php",
   "background_color": "white",
   "theme_color": "blue",
   "url": "login.php",
