@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
 $db   = 'timekeeping';
-$user = 'admin';
-$pass = 'PUTANGINAmo007';
+$user = '';
+$pass = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
