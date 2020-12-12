@@ -111,6 +111,8 @@
     $('#example').DataTable().columns.adjust();
   });
   /*Added on 121220 not sure if this code is good*/
+  
+  // TODO remove later
 navigator.serviceWorker.getRegistrations().then( function(registrations) { for(let registration of registrations) { registration.unregister(); } });																																					  
 </script>
 <main id="wrapper">
