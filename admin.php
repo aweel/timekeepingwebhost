@@ -11,7 +11,7 @@
             <th>Time</th>
             <th>Type</th>
             <th>Note</th>
-            <th>Location</th>
+            <th>Location</th> 
             <th>Image</th>
           </tr>
           </thead>

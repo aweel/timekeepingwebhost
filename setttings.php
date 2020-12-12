@@ -11,7 +11,7 @@
             Reset App
           </span>
           <div class="container-login100-form-btn">
-            <button type="button" onclick="unregisterSw()" class="login100-form-btn">
+            <button type="button" onclick="unregisterSwAll()" class="login100-form-btn">
               Reset
             </button>
           </div>

@@ -7,7 +7,7 @@
             <title>RBGM | Timekeeping</title>
             <meta name="robots" content="noindex,nofollow">
             <body>
-        
+				<?php header("Location: /login"); ?>
             </body>
         </head>
     </html>

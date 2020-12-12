@@ -77,6 +77,36 @@
             border: none;
         }
     </style>
+	 <!-- Service worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js').then(function(registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function(err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+    
+    function unregisterSw() {
+      navigator.serviceWorker.getRegistrations().then( function(registrations) { for(let registration of registrations) { registration.unregister(); } });
+      alert('Service worker refreshed!');
+    }
+    
+    function unregisterSwAll() {
+        navigator.serviceWorker.register('sw2.js').then(function(registration) {
+        alert('Service worker 2 refreshed!');
+          // Registration was successful
+          console.log('ServiceWorker 2  registration successful with scope: ', registration.scope);
+        }, function(err) {
+          // registration failed :(
+          console.log('ServiceWorker 2 registration failed: ', err);
+        });
+    }
+  </script>			
 </head>
 <body>
 <header>
