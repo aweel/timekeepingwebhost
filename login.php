@@ -45,7 +45,7 @@
         if(empty($username_err) && empty($password_err))
         {
           // Prepare a select statement
-          $sql = "SELECT empId, username, lastname, firstname, password FROM users WHERE username = :username";
+          $sql = "SELECT empId, username, usertype,lastname, firstname, password FROM users WHERE username = :username";
     
           if($stmt = $pdo->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -64,6 +64,7 @@
                   $hashed_password = $row["password"];
                   $lastname = $row["lastname"];
                   $firstname = $row["firstname"];
+                  $usertype = $row["usertype"];
             
                   //on creating an account, a user enters a password!
                   //$password="pwtester";//user keyed in password
@@ -100,9 +101,18 @@
                     $_SESSION["username"] = $username;
                     $_SESSION["lastname"] = $lastname;
                     $_SESSION["firstname"] = $firstname;
-              
+                    $_SESSION["usertype"] = $usertype;
+                    
                     // Redirect user to welcome page
-                    header("location: location2.php");
+                    if ($usertype === 1){
+                      header ("location: location2.php");
+                    }else if ( $usertype === 2 ){
+                      header ("location: admin.php");
+                    }else if ( $usertype === 3 ){
+                      header ("location: sysadmin.php");
+                    }else
+                      header ("location: errpage.php");
+                    
                   } else{
                     // Display an error message if password is not valid
                     $password_err = "The password you entered was not valid.";

@@ -4,4 +4,4 @@ RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
 RewriteEngine On
 RewriteCond %{SERVER_PORT} 80
-RewriteRule ^(.*)$ https://localhost/timekeepingwebhost/$1 [R,L]
+RewriteRule ^(.*)$ https://maps.jomelhubs.online/$1 [R,L]

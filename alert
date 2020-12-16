@@ -1,0 +1,18 @@
+
+<div id="msg">
+     <?php
+    if($_GET['msg'] == '1'){?>
+       <div class="alert alert-success" id="timeInSuccess" role="alert" >Time in saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button></div>
+     <?php }elseif($_GET['msg'] == '2'){?>
+        <div class="alert alert-danger" id="timeError" role="alert" >Oops, There is something wrong. Please try again.<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button></div>
+     <?php } elseif($_GET['msg'] == '3'){?>
+     <div class="alert alert-danger" id="timeOutSuccess" role="alert" >Time out error!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button></div>
+    <?php } unset($_GET['msg']); ?>
+    <script>setTimeout( function(){$('#msg').hide();} , 3000);</script>
+</div>
