@@ -2,6 +2,7 @@
   // Initialize the session
   session_start();
   
+  //TODO Create login redirect for HR department
   // Check if the user is logged in, if not then redirect to login page
   if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login");
@@ -10,7 +11,7 @@
   
   // Include config file
   require_once "connection.php";
-?>
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -112,9 +112,10 @@
   });
   /*Added on 121220 not sure if this code is good*/
   
-  // TODO (jomel 20201216) remove later
+  // TODO (jomel 20201216) remove later -- (jomel 20201217) removed
 //navigator.serviceWorker.getRegistrations().then( function(registrations) { for(let registration of registrations) { registration.unregister(); } });
 </script>
+
 <main id="wrapper">
 <div class="container p-b-5" style=" position: center; ">
   <div class="row" >
@@ -170,6 +171,7 @@
   </div>
 </div>
 </main>
+
 <?php include "layout/footer.php" ?>
 
 

@@ -7,6 +7,7 @@
   $username_err = $password_err = $confirm_password_err = "";
   $firstname = "";
   $lastname = "";
+  $usertype = "";
   $firstname_err = $firstname_err = "";
   $lastname_err = $lastname_err = "";
   
@@ -76,22 +77,26 @@
       }
     }
     
+    $usertype = $_POST["usertype"];
+    
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($firstname_err) && empty($lastname_err) && empty($confirm_password_err)){
       
       // Prepare an insert statement
-      $sql = "INSERT INTO users (firstname, lastname, username, password) VALUES (:firstname, :lastname, :username, :password)";
+      $sql = "INSERT INTO users (firstname, lastname, usertype, username, password) VALUES (:firstname, :lastname, :usertype, :username, :password)";
       
       if($stmt = $pdo->prepare($sql)){
         // Bind variables to the prepared statement as parameters
         $stmt->bindParam(":firstname", $param_firstname, PDO::PARAM_STR);
         $stmt->bindParam(":lastname", $param_lastname, PDO::PARAM_STR);
+        $stmt->bindParam(":usertype", $param_usertype, PDO::PARAM_INT);
         $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
         $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
         
         // Set parameters
         $param_firstname = $firstname;
         $param_lastname = $lastname;
+        $param_usertype = $usertype;
         $param_username = $username;
         $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
         
@@ -138,6 +143,15 @@
       <label>Last Name</label>
       <input type="text" name="lastname" class="form-control" value="<?php echo $lastname; ?>">
       <span class="help-block"><?php echo $lastname_err; ?></span>
+    </div>
+    <div class="form-group">
+      <label>User Type</label>
+      <select class="form-control" id="usertype" name="usertype">
+        <option value="<?php echo $usertype=1; ?>">USER</option>
+        <option value="<?php echo $usertype=2; ?>">HR</option>
+        <option value="<?php echo $usertype=3; ?>">SYSADMIN</option>
+      </select>
+      <span class="help-block"></span>
     </div>
     <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
       <label>Username</label>
