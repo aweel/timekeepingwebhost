@@ -103,8 +103,9 @@
                     $_SESSION["firstname"] = $firstname;
                     $_SESSION["usertype"] = $usertype;
                     
-                    //TODO create userpage for admin and create user
+                    //TODO (jomel 20201216) create userpage for admin and create user
                     // Redirect user to welcome page
+                    //
                     if ($usertype === 1){
                       header ("location: location2.php");
                     }else if ( $usertype === 2 ){

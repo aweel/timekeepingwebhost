@@ -112,8 +112,8 @@
   });
   /*Added on 121220 not sure if this code is good*/
   
-  // TODO remove later
-navigator.serviceWorker.getRegistrations().then( function(registrations) { for(let registration of registrations) { registration.unregister(); } });																																					  
+  // TODO (jomel 20201216) remove later
+//navigator.serviceWorker.getRegistrations().then( function(registrations) { for(let registration of registrations) { registration.unregister(); } });
 </script>
 <main id="wrapper">
 <div class="container p-b-5" style=" position: center; ">
