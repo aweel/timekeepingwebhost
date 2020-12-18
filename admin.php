@@ -19,7 +19,7 @@
           <tbody>
           <?php
             
-            //TODO For admin only query
+            //TODO (Jomel 20201218)For admin only query
             //Select all records for the whole month
             //$query_search = $pdo->prepare(" SELECT id, capturetype, lat, lng, address, notes, image, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) ORDER BY location.id DESC");
             $query_search = $pdo->prepare(" SELECT CONCAT(firstname , ' ' , lastname) as empname,  id, capturetype, lat, lng, address, notes, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) LEFT JOIN users ON (location.empId=users.empId) ORDER BY location.id DESC");
@@ -136,6 +136,13 @@
     }
     return '35vh';
   }
+
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + '-' + dd + '-' + yyyy;
   
   //Datatable options
   $(document).ready(function() {
@@ -153,7 +160,7 @@
         {
           extend: 'excel',
           title: 'Timekeeping',
-          filename: 'Record timekeeping',
+          filename: 'Record timekeeping '+today,
           footer: false
         },
         'copy', 'csv', 'pdf'
