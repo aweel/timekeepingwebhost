@@ -85,17 +85,7 @@
   //Datatable options
   $(document).ready(function() {
     $('#example').DataTable({
-      responsive: true,
-       dom:  "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-            "<'row'<'col-sm-12' tr>>" +
-            //for hr
-            //"<'row'<'col-sm-10 col-md-8'tr><'col-sm-2 col-md-4'Q>>" +
-            //"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-            "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'p>>",
-      "scrollY":  getViewport(),//"35vh", //"480px",
-      "scrollCollapse": true,
-      scrollResize: true,
-      buttons: [
+      "buttons": [
         {
           extend: 'excel',
           title: 'Timekeeping',
@@ -104,9 +94,20 @@
         },
         'copy', 'csv', 'pdf'
       ],
+      "dom":  "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+          "<'row'<'col-sm-12' tr>>" +
+          //for hr
+          //"<'row'<'col-sm-10 col-md-8'tr><'col-sm-2 col-md-4'Q>>" +
+          //"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+          "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-4'p>>",
+      "responsive": true,
+      "scrollResize": true,
+      "scrollY":  getViewport(),//"35vh", //"480px",
+      "scrollCollapse": true,
       "order": [[ 0, "desc" ]],
       "autoWidth": true,
       "autoHeight": true,
+      "deferRender": true,
     });
     $('#example').DataTable().columns.adjust();
   });
@@ -149,7 +150,8 @@
                     <td><?php echo $rows2["capturetype"] ;?></td>
                     <td><?php echo $rows2["notes"] ;?></td>
                     <td><a href="https://www.google.com/search?q=<?php echo $rows2["lat"].", ".$rows2["lng"] ;?>"><?php echo  $rows2["address"]?></a></td>
-                    <td><img style="width: 100px;height: 100px" src="<?php echo $rows2["image"] ;?>" alt="image"></td>
+                    <td><img loading="lazy" style="width: 100px;height: 100px" src="<?php echo $rows2["image"] ;?>" alt="image"></td>
+<!--                    <td><a href="--><?php //echo $rows2["image"] ;?><!--">Click here</a></td>-->
                   </tr>
                 <?php endforeach;
             }
