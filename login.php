@@ -45,7 +45,7 @@
         if(empty($username_err) && empty($password_err))
         {
           // Prepare a select statement
-          $sql = "SELECT empId, username, usertype,lastname, firstname, password FROM users WHERE username = :username";
+          $sql = "SELECT empId, username, position, contactnumber, usertype,lastname, firstname, password FROM users WHERE username = :username";
     
           if($stmt = $pdo->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -65,6 +65,8 @@
                   $lastname = $row["lastname"];
                   $firstname = $row["firstname"];
                   $usertype = $row["usertype"];
+                  $position = $row["position"];
+                  $contactnumber = $row["contactnumber"];
             
                   //on creating an account, a user enters a password!
                   //$password="pwtester";//user keyed in password
@@ -102,6 +104,8 @@
                     $_SESSION["lastname"] = $lastname;
                     $_SESSION["firstname"] = $firstname;
                     $_SESSION["usertype"] = $usertype;
+                    $_SESSION["position"] = $position;
+                    $_SESSION["contactnumber"] = $contactnumber;
                     
                     //TODO (jomel 20201216) create userpage for admin and create user
                     // Redirect user to welcome page

@@ -130,7 +130,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ACCOUNT</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Profile</a>
+              <a class="dropdown-item" href="./profile.php">Profile</a>
               <a class="dropdown-item" href="./changepass.php">Change Password</a>
             </div>
           </li>
@@ -138,7 +138,7 @@
             <a class="nav-link" href="./logout.php">LOGOUT</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://timekeep.000webhostapp.com/location2.php">Open App</a>
+<!--            <a class="nav-link" href="https://timekeep.000webhostapp.com/location2.php">Open App</a>-->
           </li>
         </ul>
       </div>
