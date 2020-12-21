@@ -1,11 +1,11 @@
 <!-- Footer section-->
 <footer>
   <nav class="navbar fixed-bottom navbar-light bg-light">
-    <a href="./location2.php" class="nav__link" style="text-decoration: none" >
+    <a href="<?php echo ($_SESSION["usertype"] == 2) ? "./admin.php" : "./location2.php"; ?>" class="nav__link" style="text-decoration: none" >
       <i class="material-icons nav__icon">home</i>
       <span class="nav__text">Home</span>
     </a>
-    <a href="./history.php" class="nav__link" style="text-decoration: none" >
+    <a href="<?php echo ($_SESSION["usertype"] == 2) ? "./admin.php" : "./history.php"; ?>" class="nav__link" style="text-decoration: none" >
       <i class="material-icons nav__icon">history</i>
       <span class="nav__text">History</span>
     </a>

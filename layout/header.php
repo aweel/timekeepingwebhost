@@ -114,7 +114,7 @@
   <div class="pos-f-t mb-3">
     <nav class="navbar fixed-top navbar-expand-md bg-dark navbar-dark p-b-3">
       <!-- Brand -->
-      <a class="navbar-brand" href="./location2.php">Timekeeping</a>
+      <a class="navbar-brand" href="<?php echo ($_SESSION["usertype"] == 2) ? "./admin.php" : "./location2.php"; ?>">Timekeeping</a>
       
       <!-- Toggler/collapsible Button -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -125,7 +125,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="./history.php">HISTORY</a>
+            <a class="nav-link" href="<?php echo ($_SESSION["usertype"] == 2) ? "./admin.php" : "./history.php"; ?>">HISTORY</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ACCOUNT</a>

@@ -1,6 +1,6 @@
 <?php
   // Include config file
-  require_once "connection.php";
+  require_once 'connection.php';
   
   // Define variables and initialize with empty values
   $username = $password = $confirm_password = "";
@@ -149,16 +149,51 @@
   <meta charset="UTF-8">
   <title>Sign Up</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
   <style type="text/css">
     body{ font: 14px sans-serif; }
     .wrapper{ width: 350px; padding: 20px; }
   </style>
+  <script>
+    // Wait for the DOM to be ready
+    $(function() {
+      // Initialize form validation on the registration form.
+      // It has the name attribute "registration"
+      $("form[name='useracct']").validate({
+        // Specify validation rules
+        rules: {
+          // The key name on the left side is the name attribute
+          // of an input field. Validation rules are defined
+          // on the right side
+          contactnumber: {
+            // Specify that email should be validated
+            // by the built-in "email" rule
+            minlength: 11,
+            maxlength: 11
+          }
+        },
+        // Specify validation error messages
+        messages: {
+          contactnumber: {
+            minlength: "Contact number should be 11 numbers.",
+            maxlength: "Contact number should be 11 numbers.",
+          }
+        },
+        // Make sure the form is submitted to the destination defined
+        // in the "action" attribute of the form when valid
+        submitHandler: function(form) {
+          form.submit();
+        }
+      });
+    });
+  </script>
 </head>
 <body>
 <div class="wrapper">
   <h2>Register Account</h2>
   <p>Please fill this form to create an account.</p>
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+  <form id="useracct" name="useracct" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
     <div class="form-group <?php echo (!empty($firstname_err)) ? 'has-error' : ''; ?>">
       <label>First Name</label>
       <input type="text" name="firstname" class="form-control" value="<?php echo $firstname; ?>">
@@ -176,7 +211,7 @@
     </div>
     <div class="form-group <?php echo (!empty($contactnumber_err)) ? 'has-error' : ''; ?>">
       <label>Contact Number</label>
-      <input type="number" name="contactnumber" class="form-control" value="<?php echo $contactnumber; ?>">
+      <input type="number" id="contactnumber" name="contactnumber" class="form-control" value="<?php echo $contactnumber; ?>">
       <span class="help-block"><?php echo $contactnumber_err; ?><?php if(isset($_GET['errmsg'])) {echo $_GET['errmsg']; unset($_GET['errmsg']);} ?></span>
     </div>
     <div class="form-group">
@@ -210,5 +245,6 @@
     <!--<p>Already have an account? <a href="login.php">Login here</a>.</p>-->
   </form>
 </div>
+
 </body>
 </html>
