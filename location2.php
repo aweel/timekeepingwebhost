@@ -64,10 +64,13 @@
     </div>
     <div class="row align-items-star">
       <div class="col text-center">
-        <button type="button" class="btn btn-primary" id="timeIn">TIME IN</button>
+        <button type="button" class="btn btn-primary" id="timeIn">IN</button>
       </div>
       <div class="col text-center">
-        <button type="button" class="btn btn-primary" id="timeOut">TIME OUT</button>
+        <button type="button" class="btn btn-primary" id="timeTransfer">TRANSFER</button>
+      </div>
+      <div class="col text-center">
+        <button type="button" class="btn btn-primary" id="timeOut">OUT</button>
       </div>
     </div>
   </div>

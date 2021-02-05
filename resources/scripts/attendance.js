@@ -107,13 +107,22 @@ if (navigator.geolocation)
                         });
                     }, 3000)
                     break;
+                    
+                case "transfer":
+                    $('#timeTransferSuccess').show();
+                    window.setTimeout(function () {
+                        $("#timeTransferSuccess").fadeTo(500, 0).slideUp(500, function () {
+                            /*$(this).remove();*/$('#timeTransferSuccess').hide();
+                        });
+                    }, 3000)
+                    break;
             }
         }
     }
 
     //Get location and image when user click timeIn & timeOut
     navigator.geolocation.getCurrentPosition(function(position) {
-
+        
         // make function
         function make(arg){
             // do something
@@ -167,6 +176,32 @@ if (navigator.geolocation)
                     success: function (result) {
                         // If your backend page sends something back
                         bannerAlert(result, "out")
+                    }
+                });
+            });
+    
+            $('#timeTransfer').click(function () {
+                cameraSensor.width = cameraView.videoWidth;
+                cameraSensor.height = cameraView.videoHeight;
+                cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
+                //cameraOutput.src = cameraSensor.toDataURL("image/webp");
+                imageJsData = cameraSensor.toDataURL("image/webp");
+                $.ajax({
+                    url: 'savelocation.php',
+                    data: {
+                        'lat': position.coords.latitude,
+                        'lng': position.coords.longitude,
+                        'type': "TRANSFER",
+                        'notes': $('#notes').val(),
+                        'image': imageJsData,
+                    },
+                    type: 'POST',
+                    beforeSend: function () {
+                        modal()
+                    },
+                    success: function (result) {
+                        // If your backend page sends something back
+                        bannerAlert(result, "transfer")
                     }
                 });
             });

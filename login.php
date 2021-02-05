@@ -1,15 +1,16 @@
 <?php
+  
   // Initialize the session
   session_start();
-  
-  // Include config file
-  require_once "connection.php";
   
   // Check if the user is already logged in, if yes then redirect him to welcome page
   if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: location2");
     exit;
   }
+  
+  // Include config file
+  require_once "connection.php";
   
   // Define variables and initialize with empty values
   $username = $password = "";
@@ -34,6 +35,7 @@
     
     if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
     {
+        //Google recaptcha uses jomel.rbgm.medical@gmail.com
       $secret = '6LdEuPwZAAAAAKLnSzptgYDHViKlMwtOe3By2Dv0';
       $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
       $responseData = json_decode($verifyResponse);
@@ -109,12 +111,15 @@
                     
                     //TODO (jomel 20201216) create userpage for admin and create user
                     // Redirect user to welcome page
-                    //
-                    if ($usertype === 1){
-                      header ("location: location2.php");
-                    }else if ( $usertype === 2 ){
+                    
+                    $var1 = $id;
+                    $var2 = date("Y/m/d");
+                    
+                    if ($usertype == 1){
+                      header ("location: redirect.php?u=$var1&d=$var2");
+                    }else if ( $usertype == 2 ){
                       header ("location: admin.php");
-                    }else if ( $usertype === 3 ){
+                    }else if ( $usertype == 3 ){
                       header ("location: sysadmin.php");
                     }else
                       header ("location: errpage.php");
@@ -142,7 +147,109 @@
       }
       else
       {
-        $errMsg = 'Robot verification failed, please try again.';
+        //$errMsg = 'Robot verification failed, please try again. huhu';
+        
+        // Validate credentials
+        if(empty($username_err) && empty($password_err))
+        {
+          // Prepare a select statement
+          $sql = "SELECT empId, username, position, contactnumber, usertype,lastname, firstname, password FROM users WHERE username = :username";
+    
+          if($stmt = $pdo->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+      
+            // Set parameters
+            $param_username = trim($_POST["username"]);
+      
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+              // Check if username exists, if yes then verify password
+              if($stmt->rowCount() == 1){
+                if($row = $stmt->fetch()){
+                  $id = $row["empId"];
+                  $username = $row["username"];
+                  $hashed_password = $row["password"];
+                  $lastname = $row["lastname"];
+                  $firstname = $row["firstname"];
+                  $usertype = $row["usertype"];
+                  $position = $row["position"];
+                  $contactnumber = $row["contactnumber"];
+            
+                  //on creating an account, a user enters a password!
+                  //$password="pwtester";//user keyed in password
+            
+                  $newhash = password_hash($password, PASSWORD_DEFAULT);
+                  //#newhash now has the only value that you need to store in the db
+                  //you do not need any more than this value, that you retrieve when you
+                  //want to verify your password!
+                  //$2y$10$TI8m/l8VFU5jjacZQrmWI.zXZDrN/WMP/4Rb1zLMUytkO9pGHo34u
+            
+            
+                  if(password_verify($password, $hashed_password)){
+                    // Password is correct, so start a new session
+                    //session_start();
+              
+                    //check session status
+                    function is_session_started()
+                    {
+                      if ( php_sapi_name() !== 'cli' ) {
+                        if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+                          return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+                        } else {
+                          return session_id() === '' ? FALSE : TRUE;
+                        }
+                      }
+                      return FALSE;
+                    }
+              
+                    // Example
+                    if ( is_session_started() === FALSE ) session_start();
+                    // Store data in session variables
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["empId"] = $id;
+                    $_SESSION["username"] = $username;
+                    $_SESSION["lastname"] = $lastname;
+                    $_SESSION["firstname"] = $firstname;
+                    $_SESSION["usertype"] = $usertype;
+                    $_SESSION["position"] = $position;
+                    $_SESSION["contactnumber"] = $contactnumber;
+                    
+                    $var1 = $id;
+                    $var2 = date("Y/m/d");
+                    
+                    //TODO (jomel 20201216) create userpage for admin and create user
+                    // Redirect user to welcome page
+                    //
+                    if ($usertype === 1){
+                      header ("location: redirect.php?u=$var1&d=$var2");
+                    }else if ( $usertype === 2 ){
+                      header ("location: admin.php");
+                    }else if ( $usertype === 3 ){
+                      header ("location: sysadmin.php");
+                    }else
+                      header ("location: errpage.php");
+                    
+                  } else{
+                    // Display an error message if password is not valid
+                    $password_err = "The password you entered was not valid.";
+                  }
+                }
+              } else{
+                // Display an error message if username doesn't exist
+                $username_err = "No account found with that username.";
+              }
+            } else{
+              echo "Oops! Something went wrong. Please try again later.";
+            }
+      
+            // Close statement
+            unset($stmt);
+          }
+        }
+  
+        // Close connection
+        unset($pdo);
       }
     }
     else
@@ -216,32 +323,36 @@
 						<span class="focus-input100"></span>
 					</div>
 					
-					<div class="flex-sb-m w-full p-b-48">
+					<div class="sb-m w-full p-b-48">
 					    <span>
                          <?php if($password_err!="") { ?>
                            <span class="errorMsg" id="validation" style="color: darkred; font-size:10px; display: inline;"><?php echo $password_err; ?></span>
                          <?php } unset($password_err);?>
                         </span>
-						<div class="contact100-form-checkbox">
-							<!--<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+							<!--<div class="contact100-form-checkbox">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
 							<label class="label-checkbox100" for="ckb1">
 								Remember me
-							</label>-->
+							</label>
 							
-						</div>
-
+						</div>-->
+                        <div>
+                            <a href="./resources/app/TimekeepSub_v0.21.apk" class="txt3" style="text-align:left;">
+								Download App
+							</a>
+                        </div>
 						<div>
 							<a href="#" class="txt3">
 								Forgot Password?
 							</a>
 						</div>
 					</div>
-          
+          <!-- Google Recaptcha uses jomel.rbgm.medical@gmail.com -->
           <div class="container-login100-form-btn">
             <div name="recaptcha" class="g-recaptcha" data-sitekey="6LdEuPwZAAAAAAasAMAulSDOPxcJZmSVWZQRXGnE"></div>
             <span>
              <?php if($errMsg!="") { ?>
-               <span class="errorMsg" id="validation">Use recaptcha before logging in.</span>
+               <span class="errorMsg" id="validation">Use recaptcha before logging in. <?php echo $errMsg; ?></span>
              <?php } unset($errMsg);?>
             </span>
           </div>
@@ -254,9 +365,6 @@
 			</div>
 		</div>
 	</div>
-	
-
-	<div id="dropDownSelect1"></div>
 	
 <!--===============================================================================================-->
 	<script src="resources/login_ui/vendor/jquery/jquery-3.2.1.min.js"></script>

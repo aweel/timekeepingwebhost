@@ -114,7 +114,7 @@
   <div class="pos-f-t mb-3">
     <nav class="navbar fixed-top navbar-expand-md bg-dark navbar-dark p-b-3">
       <!-- Brand -->
-      <a class="navbar-brand" href="<?php echo ($_SESSION["usertype"] == 2) ? "./admin.php" : "./location2.php"; ?>">Timekeeping</a>
+      <a class="navbar-brand" href="<?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "./admin.php" : "./location2.php"; ?>">Timekeeping</a>
       
       <!-- Toggler/collapsible Button -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -125,13 +125,16 @@
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo ($_SESSION["usertype"] == 2) ? "./admin.php" : "./history.php"; ?>">HISTORY</a>
+            <a class="nav-link" href="<?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "./admin.php" : "./history.php"; ?>">HISTORY</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ACCOUNT</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="./profile.php">Profile</a>
               <a class="dropdown-item" href="./changepass.php">Change Password</a>
+              <a class="dropdown-item" href="<?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "./userAccount.php" : "#"; ?>"><?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "Add User" : " "; ?></a>
+              <a class="dropdown-item" href="./resources/app/TimekeepSub_v0.21.apk">Download App</a>
+              
             </div>
           </li>
           <li class="nav-item">
@@ -156,6 +159,10 @@
 <div class="alert alert-success alert-dismissible" id="timeOutSuccess" role="alert" style="display: none">Time out saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button></div>
+    
+<div class="alert alert-success alert-dismissible" id="timeTransferSuccess" role="alert" style="display: none">Time transfer saved!<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button></div>
 
 <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-sm">
