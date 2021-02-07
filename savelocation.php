@@ -27,13 +27,14 @@ $lng = $_POST['lng'];
 $notes = $_POST['notes'];
 $type = $_POST['type'];
 $date = timestamp;
+$late = $type == "IN" ? timestamp : null;
 
 if ($pdo->beginTransaction())
 {
     try
     {
       //Save to db
-      $stmt = $pdo->prepare("INSERT INTO location (empId, capturetype, lat, lng, address, notes, capturedate ) VALUES (?,?,?,?,?,?,?)");
+      $stmt = $pdo->prepare("INSERT INTO location (empId, capturetype, lat, lng, address, notes, capturedate, late ) VALUES (?,?,?,?,?,?,?,?)");
       $stmt->bindParam(1,$empId);
       $stmt->bindParam(2,$type);
       $stmt->bindParam(3,$lat);
@@ -41,6 +42,7 @@ if ($pdo->beginTransaction())
       $stmt->bindParam(5,$address);
       $stmt->bindParam(6,$notes);
       $stmt->bindParam(7,$date);
+      $stmt->bindParam(8,$late);
       $res = $stmt->execute();
       $lastId = $pdo->lastInsertId();
     
