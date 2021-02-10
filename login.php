@@ -122,7 +122,7 @@
                     }else if ( $usertype == 3 ){
                       header ("location: sysadmin.php");
                     }else
-                      header ("location: errpage.php");
+                      header ("location: location2.php");
                     
                   } else{
                     // Display an error message if password is not valid
@@ -228,7 +228,7 @@
                     }else if ( $usertype === 3 ){
                       header ("location: sysadmin.php");
                     }else
-                      header ("location: errpage.php");
+                      header ("location: location2.php");
                     
                   } else{
                     // Display an error message if password is not valid
@@ -342,7 +342,7 @@
 							</a>
                         </div>
 						<div>
-							<a href="#" class="txt3">
+							<a href="forgotpassv1.php" class="txt3">
 								Forgot Password?
 							</a>
 						</div>

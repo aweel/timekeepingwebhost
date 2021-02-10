@@ -39,11 +39,11 @@
                     <td><?php echo $rows2["capturetype"] ;?></td>
                     <td><?php echo $rows2["notes"] ;?></td>
                     <!--TODO jomel 02082021 change this to time signed  -->
-                    <td style="color: red"><?php $time1 = $rows2["late"];
-                        if($time1 != null){
-                          echo date("H:i",( strtotime($time1) - strtotime('08:30:00') ));
+                    <td style="color: red"><?php
+                        if($rows2["late"] != null){
+                          echo date("H:i",( strtotime($rows2["late"]) - strtotime('08:30:00')));
                         }else
-                          echo "null";?>
+                          echo " ";?>
                     </td>
                     <td><a href="https://www.google.com/search?q=<?php echo $rows2["lat"].", ".$rows2["lng"] ;?>"><?php echo  $rows2["address"]?></a></td>
                     <!--<td><img style="width: 100px;height: 100px" src="<?php /*echo $rows2["image"];*/ ?>" alt="image"></td>-->
