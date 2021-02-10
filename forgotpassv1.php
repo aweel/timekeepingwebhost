@@ -83,10 +83,10 @@ $username = "";
             //Server settings
             $mail->SMTPDebug = 0;                                 // Enable verbose debug output
             $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'cpanel03wh.sin1.cloud.z.com';                  // Specify main and backup SMTP servers
+            $mail->Host = '';                  // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = 'timekeepsupport@rbgm-system.com';             // SMTP username
-            $mail->Password = 'RbGmVIP21';                           // SMTP password
+            $mail->Username = '';             // SMTP username
+            $mail->Password = '';                           // SMTP password
             $mail->SMTPSecure = 'SSL';                            // Enable SSL encryption, TLS also accepted with port 465
             $mail->Port = 587;                                    // TCP port to connect to
         
