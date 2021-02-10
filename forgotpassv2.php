@@ -10,9 +10,9 @@ require_once "connection.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+require '/home/cp401025/PHPMailer/src/Exception.php';
+require '/home/cp401025/PHPMailer/src/PHPMailer.php';
+require '/home/cp401025/PHPMailer/src/SMTP.php';
 
 // Define variables and initialize with empty values
 $username = $password = "";
