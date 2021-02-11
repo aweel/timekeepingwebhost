@@ -91,7 +91,7 @@ $username = "";
             $mail->Port = 587;                                    // TCP port to connect to
         
             //Recipients
-            $mail->setFrom('timekeepsupport@rbgm-system.com', 'Timekeep Admin');          //This is the email your form sends From
+            $mail->setFrom('', 'Timekeep Admin');          //This is the email your form sends From
             $mail->addAddress($_POST['username'], 'USER001'); // Add a recipient address
             //$mail->addAddress('contact@example.com');               // Name is optional
             //$mail->addReplyTo('info@example.com', 'Information');
