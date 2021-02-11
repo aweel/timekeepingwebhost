@@ -9,6 +9,7 @@
   $lastname = "";
   $position = $position_err = "";
   $contactnumber = $contactnumber_err = "";
+  $email = $email_err = "";
   $usertype = "";
   $firstname_err = $firstname_err = "";
   $lastname_err = $lastname_err = "";
@@ -63,21 +64,28 @@
     // Validate contact number
     if(empty(trim($_POST["contactnumber"]))){
       $contactnumber_err = "Please enter numeric value.";
-    }else if(strlen(trim($_POST["contactnumber"])) >= 8 || strlen(trim($_POST["contactnumber"])) <= 11){
+    }/*else if(strlen(trim($_POST["contactnumber"])) >= 8 || strlen(trim($_POST["contactnumber"])) <= 11){
       if(strlen(trim($_POST["contactnumber"])) != 8 || strlen(trim($_POST["contactnumber"])) != 11){
         $contactnumber_err = "Contact number must be 8.";
         unset($_POST["contactnumber"]);
-        header('location: userAccount.php?errmsg=Contact number must be 8 numbers for telephone and 13 numbers for mobile.');
+        header('location: userAccount.php?errmsg=Contact number must be 8 numbers for telephone and 11 numbers for mobile.');
           exit();
       }
-    } elseif(is_numeric($_POST["contactnumber"]) === false){
+    }*/ elseif(is_numeric($_POST["contactnumber"]) === false){
       $contactnumber_err = "Please enter numeric value.";
       header('location: userAccount.php?errmsg=Please enter numeric value.');
       exit();
     } else{
       $contactnumber = trim($_POST["contactnumber"]);
     }
-    
+
+      // Validate email
+      if(empty(trim($_POST["email"]))){
+          $email_err = "Please enter your email.";
+      } else{
+          $email = trim($_POST["email"]);
+      }
+
     // Validate password
     if(empty(trim($_POST["password"]))){
       $password_err = "Please enter a password.";
@@ -101,10 +109,10 @@
     $position = $_POST["position"];
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($firstname_err) && empty($lastname_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($password_err) && empty($firstname_err) && empty($email_err) && empty($lastname_err) && empty($confirm_password_err)){
       
       // Prepare an insert statement
-      $sql = "INSERT INTO users (firstname, lastname, usertype, position, contactnumber, username, password) VALUES (:firstname, :lastname, :usertype, :position, :contactnumber, :username, :password)";
+      $sql = "INSERT INTO users (firstname, lastname, usertype, position, contactnumber, email, username, password) VALUES (:firstname, :lastname, :usertype, :position, :contactnumber, :email, :username, :password)";
       
       if($stmt = $pdo->prepare($sql)){
         // Bind variables to the prepared statement as parameters
@@ -113,6 +121,7 @@
         $stmt->bindParam(":usertype", $param_usertype, PDO::PARAM_INT);
         $stmt->bindParam(":position", $param_position, PDO::PARAM_STR);
         $stmt->bindParam(":contactnumber", $param_contactnumber, PDO::PARAM_STR);
+        $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
         $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
         $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
         
@@ -122,6 +131,7 @@
         $param_usertype = $usertype;
         $param_position = $position;
         $param_contactnumber = $contactnumber;
+        $param_email = $email;
         $param_username = $username;
         $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
         
@@ -213,6 +223,11 @@
       <label>Contact Number</label>
       <input type="number" id="contactnumber" name="contactnumber" class="form-control" value="<?php echo $contactnumber; ?>">
       <span class="help-block"><?php echo $contactnumber_err; ?><?php if(isset($_GET['errmsg'])) {echo $_GET['errmsg']; unset($_GET['errmsg']);} ?></span>
+    </div>
+    <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+      <label>Email</label>
+      <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
+      <span class="help-block"><?php echo $email_err; ?></span>
     </div>
     <div class="form-group">
       <label>User Type</label>
