@@ -27,7 +27,9 @@ $lng = $_POST['lng'];
 $notes = $_POST['notes'];
 $type = $_POST['type'];
 $date = timestamp;
-$late = $type == "IN" ? timestamp : null;
+//Convert timestamp to time
+$timestamp = strtotime(timestamp);
+$late = $type == "IN" ? date('H:i:s', $timestamp) : null;
 
 if ($pdo->beginTransaction())
 {

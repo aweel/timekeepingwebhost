@@ -136,7 +136,7 @@
         <tbody>
         <?php
           //Select all records for the whole month
-          $query_search = $pdo->prepare(" SELECT id, capturetype, lat, lng, address, notes, late, image, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) WHERE location.empId = :empId ORDER BY location.id DESC LIMIT 26 ");
+          $query_search = $pdo->prepare(" SELECT id, capturetype, lat, lng, address, notes, late, image, capturedate, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) WHERE location.empId = :empId ORDER BY location.id DESC LIMIT 26 ");
           $query_search->bindParam(":empId", $param_empId2, PDO::PARAM_INT);
           $param_empId2 = $_SESSION["empId"];
           $query_search->execute();
@@ -150,12 +150,27 @@
                     <td><?php echo date('h:i A', strtotime($rows2["mytime"])) ;?></td>
                     <td><?php echo $rows2["capturetype"] ;?></td>
                     <td><?php echo $rows2["notes"] ;?></td>
-                    <td style="color: red"><?php $time1 = $rows2["late"];
-                          if($rows2["late"] != null){
-                            echo date("H:i",( strtotime($rows2["late"]) - strtotime('08:30:00') ));
+                      <!--TODO jomel 02192021 check if logic for late is working well-->
+                      <td style="color: red"><?php $time1 = $rows2["late"];
+                          if($time1 != null){
+                              if(strtotime($time1) <= strtotime('08:30:00')){
+                                  echo "Early";
+                              }else if(strtotime($time1) >= strtotime('08:31:00')&&strtotime($time1) <= strtotime('12:00:00')){
+                                  //echo date("H:i",( strtotime($time1) - strtotime('09:31:00') ));
+                                  $str1 = $rows2["mydate"]." ".$time1;
+                                  $str2 = $rows2["mydate"]." "."08:30:00";
+                                  $datetime1 = new DateTime(trim($str1));
+                                  $datetime2 = new DateTime(trim($str2));
+                                  $interval = $datetime1->diff($datetime2);
+                                  echo $interval->format('%H:%i');
+                              }else if(strtotime($time1) >= strtotime('12:00:00')&&strtotime($time1) <= strtotime('23:59:59')){
+                                  echo "Halfday";
+                              }
+                          }elseif($time1==null && $rows2["capturetype"]==="IN"){
+                              echo " ";
                           }else
-                            echo " ";?>
-                    </td>
+                              echo " ";?>
+                      </td>
                     <td><a href="https://www.google.com/search?q=<?php echo $rows2["lat"].", ".$rows2["lng"] ;?>"><?php echo  $rows2["address"]?></a></td>
                     <td><img loading="lazy" style="width: 100px;height: 100px" src="<?php echo $rows2["image"] ;?>" alt="image"></td>
 <!--                    <td><a href="--><?php //echo $rows2["image"] ;?><!--">Click here</a></td>-->
