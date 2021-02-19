@@ -1,5 +1,14 @@
-<?php include "./layout/header.php"; ?>
+<?php include "./layout/header.php";
+$error = array(
+    "err1" => "",
+    "err2" => "",
+    "subject" => "",
+    "message" => ""
+);
 
+if (!empty($_SESSION["err1"]))
+    $error["err1"] = $_SESSION["err1"];
+?>
 <script>
   
   function startTime() {
@@ -32,6 +41,7 @@
   });
   
 </script>
+
 <main>
   <div class="container">
     <div class="d-flex justify-content-center">
@@ -57,7 +67,7 @@
     
     <div class="row p-4">
       <div class="col text-center">
-        <label for="notes">Note </label>
+        <label for="notes">Note <small class="errorText"><?php echo $error["err1"]; unset($_SESSION["err1"])?></small></label>
         <textarea id="notes" name="notes" rows="2" cols="30"></textarea>
       </div>
     
