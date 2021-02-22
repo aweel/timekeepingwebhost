@@ -1,4 +1,11 @@
 <?php include "./layout/header.php";
+//TODO jomel 02222021 if there is something wrong with connection please check path.ini
+$path = parse_ini_file("path.ini", true);
+$pathstr = $path['PATH']['path'];
+$mapscredentials = parse_ini_file($pathstr, true);
+
+$mapstoken = $mapscredentials['GOOGLE_MAPS_TOKEN']['mapstoken'];
+
 $error = array(
     "err1" => "",
     "err2" => "",
@@ -9,6 +16,8 @@ $error = array(
 if (!empty($_SESSION["err1"]))
     $error["err1"] = $_SESSION["err1"];
 ?>
+
+
 <script>
   
   function startTime() {
@@ -87,6 +96,6 @@ if (!empty($_SESSION["err1"]))
 </main>
 <script defer src="resources/scripts/attendance.js"></script>
 <script defer src="resources/scripts/maps.js"></script>
-<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVrSDIZnYKMlz7Mqcd9M0sB2lnMPW0NTE&callback=initMap"></script>
+<script defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $mapstoken ?>&callback=initMap"></script>
 
 <?php include "./layout/footer.php" ?>

@@ -4,7 +4,17 @@ session_start();
 
 // Include config file
 require_once "connection.php";
-  
+
+$phpmailercredentials = parse_ini_file("/home/username/ini_folder/credentials.ini", true);
+//TODO jomel 02222021 if there is something wrong with connection please check path.ini
+//
+$path = parse_ini_file("path.ini", true);
+$pathstr = $path['PATH']['path'];
+$phpmailercredentials = parse_ini_file($pathstr, true);
+$mailerhost = $phpmailercredentials['PHPMAILER_SERVER']['host'];
+$maileruser = $phpmailercredentials['PHPMAILER_SERVER']['username'];
+$mailerpass = $phpmailercredentials['PHPMAILER_SERVER']['password'];
+
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -38,6 +48,7 @@ $username = "";
               $empId = $user["empId"];
               $firstname = $user["firstname"];
               $lastname = $user["lastname"];
+              $fullname = implode(' ', array($firstname, $lastname));
               $username = $user["username"];
               if ($pdo->beginTransaction())
               {
@@ -45,7 +56,8 @@ $username = "";
                   {
                       $_SESSION["vcode"] = $randnum;
                       $_SESSION["forgotpassId"] = $empId;
-                      //Save to db
+
+                      //Save verification code to db
                       $stmt = $pdo->prepare("UPDATE users SET vcode = ? WHERE empId = ?");
                       $stmt->bindParam(1,$randnum);
                       $stmt->bindParam(2,$empId);
@@ -83,16 +95,16 @@ $username = "";
             //Server settings
             $mail->SMTPDebug = 0;                                 // Enable verbose debug output
             $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = '';                  // Specify main and backup SMTP servers
+            $mail->Host = $mailerhost;                              // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = '';             // SMTP username
-            $mail->Password = '';                           // SMTP password
+            $mail->Username = $maileruser;                          // SMTP username
+            $mail->Password = $mailerpass;                           // SMTP password
             $mail->SMTPSecure = 'SSL';                            // Enable SSL encryption, TLS also accepted with port 465
             $mail->Port = 587;                                    // TCP port to connect to
         
             //Recipients
-            $mail->setFrom('', 'Timekeep Admin');          //This is the email your form sends From
-            $mail->addAddress($_POST['username'], 'USER001'); // Add a recipient address
+            $mail->setFrom($maileruser, 'Timekeep Admin');          //This is the email your form sends From
+            $mail->addAddress($email, $fullname); // Add a recipient address
             //$mail->addAddress('contact@example.com');               // Name is optional
             //$mail->addReplyTo('info@example.com', 'Information');
             //$mail->addCC('cc@example.com');
@@ -105,7 +117,7 @@ $username = "";
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Reset Password';
-            $mail->Body    = "Hello {$username}! Here is your verification code {$randnum}";
+            $mail->Body    = "Hello {$username}! Here is your verification code {$randnum}.";
             //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
         
             $mail->send();

@@ -14,7 +14,7 @@ $context = stream_context_create(
 ));
 
 //Reverse Geocoding to get location address using json decoding
-//Note: Make a fallback in case nominatim is no longer available
+//TODO Note: Make a fallback in case nominatim is no longer available
 $json = "https://nominatim.openstreetmap.org/reverse?format=json&lat=".$_POST['lat']."&lon=".$_POST["lng"]."&zoom=16&addressdetails=1";
 $jsondec = file_get_contents($json, false, $context);
 $obj = json_decode($jsondec);

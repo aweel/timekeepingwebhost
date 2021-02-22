@@ -8,10 +8,18 @@
     header("location: location2");
     exit;
   }
-  
+
   // Include config file
   require_once "connection.php";
-  
+
+  //TODO jomel 02222021 if there is something wrong with connection please check path.ini
+//
+  $path = parse_ini_file("path.ini", true);
+  $pathstr = $path['PATH']['path'];
+  $logincredentials = parse_ini_file($pathstr, true);
+  $privatetoken = $logincredentials['GOOGLE_RECAPTCHA_TOKEN']['recaptchatokenprivate'];
+  $publictoken   = $logincredentials['GOOGLE_RECAPTCHA_TOKEN']['recaptchatokenpublic'];
+
   // Define variables and initialize with empty values
   $username = $password = "";
   $username_err = $password_err = $errMsg = "";
@@ -36,7 +44,7 @@
     if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
     {
         //Google recaptcha uses jomel.rbgm.medical@gmail.com
-      $secret = '6LdEuPwZAAAAAKLnSzptgYDHViKlMwtOe3By2Dv0';
+      $secret = $privatetoken;
       $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
       $responseData = json_decode($verifyResponse);
       if($responseData->success)
@@ -349,7 +357,7 @@
 					</div>
           <!-- Google Recaptcha uses jomel.rbgm.medical@gmail.com -->
           <div class="container-login100-form-btn">
-            <div name="recaptcha" class="g-recaptcha" data-sitekey="6LdEuPwZAAAAAAasAMAulSDOPxcJZmSVWZQRXGnE"></div>
+            <div name="recaptcha" class="g-recaptcha" data-sitekey=<?php echo $publictoken; ?>></div>
             <span>
              <?php if($errMsg!="") { ?>
                <span class="errorMsg" id="validation">Use recaptcha before logging in. <?php echo $errMsg; ?></span>
