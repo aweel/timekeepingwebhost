@@ -2,16 +2,16 @@
 <footer>
   <nav class="navbar fixed-bottom navbar-light bg-light">
     <a href="<?php echo ($_SESSION["usertype"] == 2) ? "./admin.php" : "./location2.php"; ?>" class="nav__link" style="text-decoration: none" >
-      <i class="material-icons nav__icon">home</i>
-      <span class="nav__text">Home</span>
+      <i class="material-icons nav__icon md-48">home</i>
+      <!--<span class="nav__text">Home</span>-->
     </a>
     <a href="<?php echo ($_SESSION["usertype"] == 2) ? "./admin.php" : "./history.php"; ?>" class="nav__link" style="text-decoration: none" >
-      <i class="material-icons nav__icon">history</i>
-      <span class="nav__text">History</span>
+      <i class="material-icons nav__icon md-48">history</i>
+      <!--<span class="nav__text">History</span>-->
     </a>
     <a href="./setttings.php" class="nav__link" style="text-decoration: none" >
-      <i class="material-icons nav__icon">settings</i>
-      <span class="nav__text">Settings</span>
+      <i class="material-icons nav__icon md-48">settings</i>
+      <!--<span class="nav__text">Settings</span>-->
     </a>
   </nav>
 </footer>
