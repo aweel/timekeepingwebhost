@@ -20,7 +20,7 @@ $mailerpass = $phpmailercredentials['PHPMAILER_SERVER']['password'];
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-//Change this based on web server path
+//Change this based on web server path /home/cp401025/
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';

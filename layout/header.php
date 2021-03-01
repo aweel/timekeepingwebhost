@@ -25,7 +25,7 @@
     <title>RBGM-Timekeeping</title>
   
     <!-- Manifest -->
-    <link rel='manifest' href='./manifest.json'>
+    <link rel='manifest' href='./manifest.webmanifest'>
   
     <!-- CSS only -->
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -39,11 +39,11 @@
 
     <!-- JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.2/fh-3.1.7/r-2.2.6/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.0/datatables.min.js"></script>
+    <script async src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script async src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script defer src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.22/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.2/fh-3.1.7/r-2.2.6/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.0/datatables.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 
     <style>
         /* Always set the map height explicitly to define the size of the div
@@ -78,17 +78,16 @@
             border: none;
         }
     </style>
-
 </head>
 <body>
 <header>
-  <div class="pos-f-t mb-3">
-    <nav class="navbar fixed-top navbar-expand-md bg-dark navbar-dark p-b-3">
+  <div class="pos-f-t mb-0">
+    <nav class="navbar fixed-top navbar-expand-md bg-dark navbar-dark p-b-0">
       <!-- Brand -->
       <a class="navbar-brand" href="<?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "./admin.php" : "./location2.php"; ?>">Timekeeping</a>
       
       <!-- Toggler/collapsible Button -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <button class="navbar-toggler" aria-label="Navbar toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
       
@@ -103,7 +102,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="./profile.php">Profile</a>
               <a class="dropdown-item" href="./changepass.php">Change Password</a>
-              <a class="dropdown-item" href="<?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "./userAccount.php" : "#"; ?>"><?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "Add User" : " "; ?></a>
+              <a class="dropdown-item" aria-label="User Account" href="<?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "./userAccount.php" : "#"; ?>"><?php echo ($_SESSION["usertype"] == 2 || $_SESSION["usertype"] == 3) ? "Add User" : " "; ?></a>
               <a class="dropdown-item" href="./resources/app/TimekeepSub_v0.21.apk">Download App</a>
               
             </div>

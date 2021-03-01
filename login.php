@@ -274,7 +274,15 @@
 	<title>RBGM-Timekeeping</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
+    <meta name="theme-color" content="#4285f4">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="https://static.xx.fbcdn.net/rsrc.php/v3/ys/r/EdXnHjzXA5W.png">
+    <link rel="apple-touch-icon" href="./resources/images/icon/xxhdpi.png">
+    <link rel="icon" href="./resources/images/icon/32x32.png">
+    <!-- Manifest -->
+    <link rel='manifest' href='./manifest.webmanifest'>
+
+
+<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="resources/login_ui/vendor/bootstrap/css/bootstrap.min.css">
@@ -366,7 +374,7 @@
           </div>
           
           <div class="container-login100-form-btn">
-              <button type="submit" formmethod="post" formaction="" class="login100-form-btn">Login</button>
+              <button type="submit" formmethod="post" id="login" formaction="" class="login100-form-btn">Login</button>
           </div>
           
 				</form>
@@ -377,20 +385,19 @@
 <!--===============================================================================================-->
 	<script src="resources/login_ui/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
-	<script src="resources/login_ui/vendor/animsition/js/animsition.min.js"></script>
+	<script async src="resources/login_ui/vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
-	<script src="resources/login_ui/vendor/bootstrap/js/popper.js"></script>
-	<script src="resources/login_ui/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script async src="resources/login_ui/vendor/bootstrap/js/popper.js"></script>
+	<script async src="resources/login_ui/vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
-	<script src="resources/login_ui/vendor/select2/select2.min.js"></script>
+	<script async src="resources/login_ui/vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="resources/login_ui/vendor/daterangepicker/moment.min.js"></script>
-	<script src="resources/login_ui/vendor/daterangepicker/daterangepicker.js"></script>
+	<script async src="resources/login_ui/vendor/daterangepicker/moment.min.js"></script>
+	<script async src="resources/login_ui/vendor/daterangepicker/daterangepicker.js"></script>
 <!--===============================================================================================-->
-	<script src="resources/login_ui/vendor/countdowntime/countdowntime.js"></script>
+	<script async src="resources/login_ui/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-	<script src="resources/login_ui/js/main.js"></script>
-	<script src='https://www.google.com/recaptcha/api.js' async defer ></script>
-
+	<script async src="resources/login_ui/js/main.js"></script>
+	<script defer src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 </html>

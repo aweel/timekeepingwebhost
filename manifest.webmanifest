@@ -1,0 +1,58 @@
+{
+  "gcm_sender_id": "921800434106",
+  "gcm_user_visible_only": true,
+  "short_name": "Timekeeping",
+  "description": "Timekeeping PWA",
+  "display": "standalone",
+  "name": "Timekeeping",
+  "prefer_related_applications": false,
+  "start_url": "login.php",
+  "background_color": "white",
+  "theme_color": "blue",
+  "url": "login.php",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "resources/images/icon/512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "resources/images/icon/512x512.png",
+      "sizes": "325x325",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "resources/images/icon/xxxhdpi.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "resources/images/icon/xxhdpi.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "resources/images/icon/Icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "resources/images/icon/64x64.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "resources/images/icon/32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
