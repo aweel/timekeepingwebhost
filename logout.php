@@ -14,5 +14,5 @@
   
 // Redirect to login page
   header("location: login");
-  exit;
+  exit();
 ?>

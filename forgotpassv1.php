@@ -123,6 +123,7 @@ $username = "";
             $mail->send();
             echo 'Message has been sent';
             header("location: forgotpassv2.php");
+            exit();
         }catch (Exception $e){
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;

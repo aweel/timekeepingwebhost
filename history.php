@@ -137,7 +137,7 @@
         <tbody>
         <?php
           //Select all records for the whole month
-          $query_search = $pdo->prepare(" SELECT id, capturetype, lat, lng, address, notes, late, image,capturedate, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) WHERE location.empId = :empId ORDER BY location.id DESC LIMIT 26 ");
+          $query_search = $pdo->prepare(" SELECT id, capturetype, lat, lng, address, notes, late, image, capturedate, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) WHERE location.empId = :empId ORDER BY location.id DESC LIMIT 26 ");
           $query_search->bindParam(":empId", $param_empId2, PDO::PARAM_INT);
           $param_empId2 = $_SESSION["empId"];
           $query_search->execute();

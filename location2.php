@@ -33,9 +33,9 @@ if (!empty($_SESSION["err1"]))
       
       <div class="card text-black bg-light m-1" style="width: 18rem; border-radius:20px;">
         <div class="card-card-img-top" id="map" style="width:100%;height:10rem;border-radius:15px;"></div>
-        <div class="card-body">
-          <h5 class="card-title" style="text-align: center; font-weight:lighter" >Coordinates</h5>
-          <p class="card-text" id="jsClock"></p>
+        <div class="mx-auto">
+          <h5 class="card-title" style="text-align: center; font-weight:lighter" >Last Timekeep</h5>
+          <p class="card-text" id="jsClock">IN TME</p>
         </div>
       </div>
     </div>
@@ -71,7 +71,12 @@ if (!empty($_SESSION["err1"]))
 <script defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $mapstoken ?>&callback=initMap"></script>
 <script>
 
-        function startTime() {
+    function checkTime(i) {
+        if (i < 10) {i = "0" + i}  // add zero in front of numbers < 10
+        return i;
+    }
+
+    function startTime() {
             var today = new Date();
             var h = today.getHours();
             var m = today.getMinutes();
@@ -89,12 +94,6 @@ if (!empty($_SESSION["err1"]))
             var strTime = hours + ':' + minutes + ' ' + ampm;
             document.getElementById('clock').innerHTML = strTime;
         }
-
-        function checkTime(i) {
-            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-            return i;
-        }
-
         startTime();
         // Start the clock
         /*$( document ).ready(function() {

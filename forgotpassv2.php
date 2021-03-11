@@ -48,6 +48,7 @@ if(isset($_POST['username'])){
                             $_SESSION["vcode"] = $vcode;
                             $_SESSION["changepassid"] = $empId;
                             header("location: forgotpassv3.php");
+                            exit();
                         }
                         catch (PDOException $e)
                         {

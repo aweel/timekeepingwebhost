@@ -139,6 +139,7 @@
         if($stmt->execute()){
           // Redirect to login page
           header("location: login.php");
+          exit();
         } else{
           echo "Something went wrong. Please try again later.";
         }

@@ -83,7 +83,7 @@ if (navigator.geolocation)
 
     //Alert on top of page after insert or error
     function bannerAlert(result, res){
-        if (result.type == "error") {
+          if (result.type == "error") {
             //$("#result").addClass("alert alert-success fade");
             //$('#result').html("<div class='alert alert-danger'>"+"Not Okay"+"</div>");
             $('#timeError').show();
@@ -115,6 +115,18 @@ if (navigator.geolocation)
                             /*$(this).remove();*/$('#timeTransferSuccess').hide();
                         });
                     }, 3000)
+                    break;
+                case "error":
+
+                    $('#myModal').modal('show');
+                    /*var x = document.getElementById("timeError");
+                    $('#timeError').show();
+                    window.setTimeout(function () {
+                        $("#timeError").fadeTo(500, 0).slideUp(500, function () {
+                            /*$(this).remove();$('#timeError').hide();
+
+                        });
+                    }, 3000);*/
                     break;
             }
         }
@@ -149,7 +161,12 @@ if (navigator.geolocation)
                     },
                     success: function(result) {
                         console.log("image sent");
-                        bannerAlert(result, "in");
+                        if (result === "error"){
+                            bannerAlert(result, "error");
+                        }
+                        else{
+                            bannerAlert(result, "in");
+                        }
                     }
                 });
             });
@@ -175,7 +192,12 @@ if (navigator.geolocation)
                     },
                     success: function (result) {
                         // If your backend page sends something back
-                        bannerAlert(result, "out")
+                        if (result === "error"){
+                            bannerAlert(result, "error");
+                        }
+                        else{
+                            bannerAlert(result, "out");
+                        }
                     }
                 });
             });
@@ -201,7 +223,12 @@ if (navigator.geolocation)
                     },
                     success: function (result) {
                         // If your backend page sends something back
-                        bannerAlert(result, "transfer")
+                        if (result === "error"){
+                            bannerAlert(result, "error");
+                        }
+                        else{
+                            bannerAlert(result, "transfer");
+                        }
                     }
                 });
             });

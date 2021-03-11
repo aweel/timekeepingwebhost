@@ -44,34 +44,38 @@ try
     $date1 = date('Y-m-d', strtotime($userdbdate));
     $date2 = date('Y-m-d');
 
-    if($userdbtype === "IN"){
+    switch($userdbtype){
+      case "IN":
         if ($type === "IN" && $date1 === $date2) {
-            $_SESSION["err1"] =  "Multiple In \r\n Continue?";
-            return;
+          $_SESSION["err1"] =  "Multiple In";
+          echo "error";
+          return;
         }
-
         if($type === "IN" && $date1 < $date2) {
-            echo "Multiple In \r\n Continue?";
-            return;
+          $_SESSION["err1"] =  "Not yet on out \r\n Continue?";
+          echo "error";
+          return;
         }
-    }elseif ($userdbtype === "OUT"){
-
-        if($type === "OUT" && $date1 === $date2){
-            echo "Multiple Out \r\n Continue?";
-            return;
+        break;
+      case "TRA":
+        if($type === "IN") {
+          $_SESSION["err1"] =  "Cannot in while on transfer \r\n Continue?";
+          echo "error";
+          return;
         }
-    }elseif ($userdbtype === "TRA"){
-        if ($type === "OUT" && $date1 < $date2) {
-            echo "Multiple Out \r\n Continue?";
-            return;
+        break;
+      case "OUT":
+        if($type === "TRANSFER"){// && $date1 === $date2{
+          $_SESSION["err1"] =  "Cannot transfer while on out \r\n Continue?";
+          echo "error";
+          return;
         }
-
-        if($type === "IN" && $date1 < $date2) {
-            echo "Multiple Out \r\n Continue?";
-            return;
+        if($type === "OUT"){// && $date1 === $date2{
+          $_SESSION["err1"] =  "Multiple Out \r\n Continue?";
+          echo "error";
+          return;
         }
-
-        echo "lul";
+        break;
     }
 }catch (Exception $exception)
 {
@@ -100,6 +104,7 @@ if ($pdo->beginTransaction())
       $stmt2->bindParam(2,$img);
       $res2 = $stmt2->execute();
       $pdo->commit();
+
     }
     catch (PDOException $e)
     {

@@ -6,7 +6,7 @@
   // Check if the user is logged in, if not then redirect to login page
   if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login");
-    exit;
+    exit();
   }
   
   // Include config file
@@ -141,3 +141,24 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade"  id="myModal"  tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <h4 class="modal-title">Error</h4> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p><?php if(isset($_SESSION['err1'])){
+            echo $_SESSION['err1']/*'<div class="alert">' . $_SESSION['err1'] . '</div>'*/;
+            unset($_SESSION['err1']);
+          } ?></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

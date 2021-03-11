@@ -23,7 +23,7 @@
             //TODO (Jomel 20201218)For admin only query
             //Select all records for the whole month
             //$query_search = $pdo->prepare(" SELECT id, capturetype, lat, lng, address, notes, image, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) ORDER BY location.id DESC");
-            $query_search = $pdo->prepare(" SELECT CONCAT(firstname , ' ' , lastname) as empname,  id, capturetype, image, lat, lng, address, late, notes, DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) LEFT JOIN users ON (location.empId=users.empId) ORDER BY location.id DESC");
+            $query_search = $pdo->prepare(" SELECT CONCAT(firstname , ' ' , lastname) as empname,  id, capturetype, image, lat, lng, address, late, notes, capturedate,  DATE(capturedate) as mydate, TIME(capturedate) as mytime FROM location LEFT JOIN images ON (location.id=images.locId) LEFT JOIN users ON (location.empId=users.empId) ORDER BY location.id DESC");
             //$query_search->bindParam(":empId", $param_empId2, PDO::PARAM_INT);
             //$param_empId2 = $_SESSION["empId"];
             $query_search->execute();

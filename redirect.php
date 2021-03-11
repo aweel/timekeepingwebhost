@@ -22,7 +22,7 @@
           header ("location: location2.php");
           exit;
   }else{
-    header("location: login")  ;
-    exit;
+    header("location: login");
+    exit();
   }
 ?>
